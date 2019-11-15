@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "90419986362",
+    "firebase_url": "https://marketflutter-7ab9c.firebaseio.com",
+    "project_id": "marketflutter-7ab9c",
+    "storage_bucket": "marketflutter-7ab9c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:90419986362:android:3e3715d087fac7b0fc2783",
+        "android_client_info": {
+          "package_name": "br.com.teka.simple_market"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "90419986362-ksrtnd3158arf6bor3tom1j2abnuo37n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5MwDOCthuTH1ziYSlEKTmQtBmP3l5YZI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "90419986362-ksrtnd3158arf6bor3tom1j2abnuo37n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
