@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:simple_market/TABS/category_tab.dart';
-import 'package:simple_market/TABS/home_tab.dart';
+import 'package:simple_market/TABS/Category_tab.dart';
+import 'package:simple_market/TABS/Home_tab.dart';
 import 'package:simple_market/widgets/CustomDrawer.dart';
 
 class HomeMarket extends StatelessWidget {

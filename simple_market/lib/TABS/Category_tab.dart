@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:simple_market/Tiles/category_tile.dart';
+import 'package:simple_market/Tiles/Category_tile.dart';
 
 class CategoryTab extends StatelessWidget {
   @override
