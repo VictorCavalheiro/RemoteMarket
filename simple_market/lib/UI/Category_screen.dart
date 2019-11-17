@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:simple_market/Models/ProductData.dart';
+import 'package:simple_market/Tiles/ProductTile.dart';
 
 class CategoryScreen extends StatelessWidget {
-
   final DocumentSnapshot snapshot;
 
   CategoryScreen(this.snapshot);
@@ -22,9 +23,46 @@ class CategoryScreen extends StatelessWidget {
                 ),
                 title: Text(snapshot.data["title"]),
                 centerTitle: true),
-            body: TabBarView(children: <Widget>[
-              Container(color: Colors.red),
-              Container(color: Colors.green)
-            ])));
+            body: FutureBuilder<QuerySnapshot>(
+              future: Firestore.instance
+                  .collection("categories").document("shirts").collection("itens").getDocuments(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(child: CircularProgressIndicator());
+                } else {
+                  var lele = snapshot.data;
+                  print(lele.documents[0]);
+                  return TabBarView(
+                      physics: NeverScrollableScrollPhysics(),
+                      children: <Widget>[
+                        GridView.builder(
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    childAspectRatio: 0.65,
+                                    crossAxisSpacing: 0.0,
+                                    mainAxisSpacing: 0.0),
+                            padding: EdgeInsets.all(5.0),
+                            itemCount: snapshot.data.documents.length,
+                            itemBuilder: (context, index) {
+                              return ProductTile(
+                                  "grid",
+                                  ProductData.fromDocument(
+                                      snapshot.data.documents[index]));
+                            }),
+                        ListView.builder(
+                            padding: EdgeInsets.all(4.0),
+                            itemCount: snapshot.data.documents.length,
+                            itemBuilder: (context, index) {
+                              return ProductTile(
+                                  "list",
+                                  ProductData.fromDocument(
+                                      snapshot.data.documents[index]));
+                              return Text("oi",style: TextStyle(color:Colors.black));
+                            })
+                      ]);
+                }
+              },
+            )));
   }
 }
