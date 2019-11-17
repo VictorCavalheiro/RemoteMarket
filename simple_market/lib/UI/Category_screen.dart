@@ -30,8 +30,6 @@ class CategoryScreen extends StatelessWidget {
                 if (!snapshot.hasData) {
                   return Center(child: CircularProgressIndicator());
                 } else {
-                  var lele = snapshot.data;
-                  print(lele.documents[0]);
                   return TabBarView(
                       physics: NeverScrollableScrollPhysics(),
                       children: <Widget>[
