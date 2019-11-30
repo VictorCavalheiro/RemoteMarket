@@ -12,6 +12,12 @@ class UserModel extends Model {
 
   Map<String, dynamic> userData = Map();
 
+  @override
+  void addListener(VoidCallback listener) {
+    super.addListener(listener);
+    _loadDataUser();
+  }
+
   Future<FirebaseUser> signUp(
       {@required Map<String, dynamic> userData,
       @required String pass,
@@ -26,7 +32,7 @@ class UserModel extends Model {
       firebaseUser = value;
       await _saveUserCompletly(userData);
       onSuccess();
-      isLoading=false;
+      isLoading = false;
       notifyListeners();
     }).catchError((e) {
       onFail();
@@ -35,13 +41,38 @@ class UserModel extends Model {
     });
   }
 
-  void signIn() async {
+  void signIn(
+      {@required Map<String, dynamic> userData,
+      @required pass,
+      @required VoidCallback onSuccess,
+      @required VoidCallback onFail}) async {
     isLoading = true;
     notifyListeners();
-    await Future.delayed(Duration(seconds: 4));
+    _auth
+        .signInWithEmailAndPassword(email: userData["email"], password: pass)
+        .then((user) async {
+      firebaseUser = user;
+      await _loadDataUser();
+      isLoading = false;
+      notifyListeners();
+      onSuccess();
+    }).catchError((e) {
+      print(e);
+      isLoading = false;
+      notifyListeners();
+      onFail();
+    });
+  }
 
-    isLoading = false;
+  void signOut() {
+    userData = Map();
+    firebaseUser = null;
+    _auth.signOut();
     notifyListeners();
+  }
+
+  bool isLoggedIn() {
+    return userData["name"] != null;
   }
 
   Future<Null> _saveUserCompletly(Map<String, dynamic> userData) async {
@@ -51,5 +82,20 @@ class UserModel extends Model {
         .collection("users")
         .document(firebaseUser.uid)
         .setData(userData);
+  }
+
+  Future<Null> _loadDataUser() async {
+    if (firebaseUser == null) {
+      firebaseUser = await _auth.currentUser();
+    }
+    if (firebaseUser != null) {
+      if (userData["name"] == null) {
+        DocumentSnapshot docUser = await Firestore.instance
+            .collection("users")
+            .document(firebaseUser.uid)
+            .get();
+        userData = docUser.data;
+      }
+    }
   }
 }

@@ -25,39 +25,39 @@ class HomeTab extends StatelessWidget {
           flexibleSpace: FlexibleSpaceBar(
               title: const Text("Novidades"), centerTitle: true),
         ),
-        FutureBuilder<QuerySnapshot>(
-            future: Firestore.instance
-                .collection("home")
-                .orderBy("pos")
-                .getDocuments(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return SliverToBoxAdapter(
-                    child: Container(
-                        child: CircularProgressIndicator(
-                          valueColor:
-                          AlwaysStoppedAnimation<Color>(Colors.white),
-                        ),
-                        height: 200.0,
-                        alignment: Alignment.center));
-              } else {
-                return SliverStaggeredGrid.count(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 1.0,
-                    crossAxisSpacing: 1.0,
-                    staggeredTiles: snapshot.data.documents.map(
-                            (doc) {
-                          return StaggeredTile.count(doc.data["x"], doc
-                              .data["y"]);
-                        }
-                    ).toList(),
-                    children: snapshot.data.documents.map((doc) {
-                      return FadeInImage.memoryNetwork(
-                          placeholder: kTransparentImage, image: doc
-                          .data["img"],fit: BoxFit.cover,);
-                    }).toList());
-              }
-            })
+//        FutureBuilder<QuerySnapshot>(
+//            future: Firestore.instance
+//                .collection("home")
+//                .orderBy("pos")
+//                .getDocuments(),
+//            builder: (context, snapshot) {
+//              if (!snapshot.hasData) {
+//                return SliverToBoxAdapter(
+//                    child: Container(
+//                        child: CircularProgressIndicator(
+//                          valueColor:
+//                          AlwaysStoppedAnimation<Color>(Colors.white),
+//                        ),
+//                        height: 200.0,
+//                        alignment: Alignment.center));
+//              } else {
+//                return SliverStaggeredGrid.count(
+//                    crossAxisCount: 2,
+//                    mainAxisSpacing: 1.0,
+//                    crossAxisSpacing: 1.0,
+//                    staggeredTiles: snapshot.data.documents.map(
+//                            (doc) {
+//                          return StaggeredTile.count(doc.data["x"], doc
+//                              .data["y"]);
+//                        }
+//                    ).toList(),
+//                    children: snapshot.data.documents.map((doc) {
+//                      return FadeInImage.memoryNetwork(
+//                          placeholder: kTransparentImage, image: doc
+//                          .data["img"],fit: BoxFit.cover,);
+//                    }).toList());
+//              }
+//            })
       ])
     ]);
   }

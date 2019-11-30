@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:scoped_model/scoped_model.dart';
+import 'package:simple_market/Models/UserModel.dart';
 import 'package:simple_market/Tiles/DrawerTile.dart';
 import 'package:simple_market/UI/HomeMarket.dart';
 import 'package:simple_market/UI/Login.dart';
@@ -30,7 +32,7 @@ class CustomDrawer extends StatelessWidget {
                 height: 170.0,
                 child: Stack(children: <Widget>[
                   Positioned(
-                      child: Text("Science Events",
+                      child: Text("Market Place",
                           style: TextStyle(
                               fontSize: 32.0,fontStyle: FontStyle.italic)),
                       top: 36.0,
@@ -38,31 +40,38 @@ class CustomDrawer extends StatelessWidget {
                   Positioned(
                       left: 0.0,
                       bottom: 0.0,
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text("Hello,",
-                                style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold)),
-                            GestureDetector(
-                              onTap: (){
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Login()));
-                              },
-                                child: Text(
-                              "Sign in or register >",
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).primaryColor),
-                            ))
-                          ]))
+                      child:ScopedModelDescendant<UserModel>(builder: (context,child,model){
+
+                        return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text("Hello, ${!model.isLoggedIn() ? "" : model.userData["name"]}",
+                                  style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold)),
+                              GestureDetector(
+                                  onTap: (){
+                                    if(model.isLoggedIn()==false)
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Login()));
+                                    else
+                                      model.signOut();
+                                  },
+                                  child: Text(
+                                    !model.isLoggedIn() ?
+                                    "Sign in or register >" : "Logout",
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Theme.of(context).primaryColor),
+                                  ))
+                            ]);
+                      }))
                 ])),
 
             DrawerTile(Icons.home,"Home",pageController,0),
             DrawerTile(Icons.search,"Roupas",pageController,1),
-            DrawerTile(Icons.location_on,"Locations",pageController,2),
-            DrawerTile(Icons.playlist_add_check,"Submited articles",pageController,3)
+            DrawerTile(Icons.history,"Compras Recentes",pageController,2),
+            DrawerTile(Icons.shopping_cart,"Carrinho",pageController,3)
           ])
     ]));
   }
