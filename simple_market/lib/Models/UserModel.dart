@@ -18,6 +18,11 @@ class UserModel extends Model {
     _loadDataUser();
   }
 
+  void recoveryPassword(String email){
+    _auth.sendPasswordResetEmail(email: email);
+  }
+
+
   Future<FirebaseUser> signUp(
       {@required Map<String, dynamic> userData,
       @required String pass,

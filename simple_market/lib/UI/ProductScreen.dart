@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simple_market/Models/ProductData.dart';
+import 'package:simple_market/Data/Product_data.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 
 class ProductScreen extends StatefulWidget {

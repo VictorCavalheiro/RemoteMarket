@@ -65,12 +65,33 @@ class _LoginState extends State<Login> {
                   Align(
                     alignment: Alignment.centerRight,
                     child: FlatButton(
+
                         padding: EdgeInsets.zero,
                         child: Text(
                           "Esqueci minha senha",
                           style: TextStyle(fontWeight: FontWeight.w600),
                         ),
-                        onPressed: () {}),
+                        onPressed: () {
+                          if(_emailController.text.isEmpty){
+                            _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                content: Text("Preencha seu email"),
+                                backgroundColor: Colors.redAccent,
+                                duration: Duration(seconds: 3)));
+
+
+
+                          }
+                          else{
+                            _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                content: Text("Verifique seu email"),
+                                backgroundColor: Colors.greenAccent,
+                                duration: Duration(seconds: 3)));
+
+                            _emailController.text="";
+                            _passwordController.text="";
+                            model.recoveryPassword(_emailController.text);
+                          }
+                        }),
                   ),
                   SizedBox(height: 16.0),
                   SizedBox(

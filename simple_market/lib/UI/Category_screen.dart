@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:simple_market/Models/ProductData.dart';
+import 'package:simple_market/Data/Product_data.dart';
 import 'package:simple_market/Tiles/ProductTile.dart';
 
 class CategoryScreen extends StatelessWidget {
