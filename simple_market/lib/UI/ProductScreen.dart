@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:simple_market/Data/Cart_product.dart';
 import 'package:simple_market/Data/Product_data.dart';
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:simple_market/Models/CartModel.dart';
+import 'package:simple_market/Models/UserModel.dart';
+import 'package:simple_market/UI/Login.dart';
+import 'package:simple_market/Data/Cart_product.dart';
+
+import 'Cart_screen.dart';
 
 class ProductScreen extends StatefulWidget {
   final ProductData product;
@@ -95,16 +102,42 @@ class _ProductScreenState extends State<ProductScreen> {
                   ),
                   Text(product.description),
                   SizedBox(height: 16.0),
-
                 ])),
         Container(
-            margin: EdgeInsets.only(right: 10.0,left: 10.0),
+            margin: EdgeInsets.only(right: 10.0, left: 10.0),
             child: SizedBox(
                 height: 44.0,
                 child: RaisedButton(
                   color: primaryColor,
-                  onPressed: _size != null ? () {} : null,
-                  child: Text("Adicionar ao carrinho",
+                  onPressed:
+                      (_size != null && UserModel.of(context).isLoggedIn()) ||
+                              !UserModel.of(context).isLoggedIn()
+                          ? () {
+                              if (!UserModel.of(context).isLoggedIn()) {
+                                Navigator.of(context)
+                                    .push(MaterialPageRoute(builder: (context) {
+                                  return Login();
+                                }));
+                              } else {
+
+                                String value = product.category.toString();
+                                Cart_product item = Cart_product();
+                                item.size = _size;
+                                item.pid = product.description;
+                                item.category = value;
+                                item.quantity = 1;
+
+                                CartModel.of(context).addCartItem(item);
+
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => CartScreen()));
+                              }
+                            }
+                          : null,
+                  child: Text(
+                      UserModel.of(context).isLoggedIn()
+                          ? "Adicionar ao carrinho"
+                          : "Entrar na loja",
                       style: TextStyle(color: Colors.white)),
                   shape: RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(18.0),

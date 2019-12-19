@@ -18,6 +18,10 @@ class UserModel extends Model {
     _loadDataUser();
   }
 
+  static UserModel of(BuildContext context){
+    return ScopedModel.of<UserModel>(context);
+  }
+
   void recoveryPassword(String email){
     _auth.sendPasswordResetEmail(email: email);
   }
@@ -77,7 +81,9 @@ class UserModel extends Model {
   }
 
   bool isLoggedIn() {
-    return userData["name"] != null;
+    if(userData["name"]==null)
+      return false;
+    return true;
   }
 
   Future<Null> _saveUserCompletly(Map<String, dynamic> userData) async {
